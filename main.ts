@@ -30,7 +30,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 let astroid: Sprite = null
 let projectile: Sprite = null
 let spaceship: Sprite = null
-info.setLife(3)
+info.setLife(5)
 info.setScore(0)
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff22445555555555555555555555555555111111111111111111
@@ -176,7 +176,7 @@ spaceship.y = scene.screenHeight() - 0
 controller.moveSprite(spaceship, 150, 0)
 spaceship.setFlag(SpriteFlag.StayInScreen, true)
 game.onUpdate(function () {
-    if (info.score() == 10) {
+    if (info.score() == 20) {
         game.over(true, effects.confetti)
     }
 })
