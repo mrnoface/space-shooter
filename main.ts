@@ -1,33 +1,34 @@
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(img`
         . . . . . . . . . . . . . . . . 
-        . . . . . . 6 6 6 6 . . . . . . 
-        . . . . 6 6 6 5 5 6 6 6 . . . . 
-        . . . 7 7 7 7 6 6 6 6 6 6 . . . 
-        . . 6 7 7 7 7 8 8 8 1 1 6 6 . . 
-        . . 7 7 7 7 7 8 8 8 1 1 5 6 . . 
-        . 6 7 7 7 7 8 8 8 8 8 5 5 6 6 . 
-        . 6 7 7 7 8 8 8 6 6 6 6 5 6 6 . 
-        . 6 6 7 7 8 8 6 6 6 6 6 6 6 6 . 
-        . 6 8 7 7 8 8 6 6 6 6 6 6 6 6 . 
-        . . 6 8 7 7 8 6 6 6 6 6 8 6 . . 
-        . . 6 8 8 7 8 8 6 6 6 8 6 6 . . 
-        . . . 6 8 8 8 8 8 8 8 8 6 . . . 
-        . . . . 6 6 8 8 8 8 6 6 . . . . 
-        . . . . . . 6 6 6 6 . . . . . . 
+        . . . . . . 4 4 4 4 . . . . . . 
+        . . . . 4 4 4 5 5 4 4 4 . . . . 
+        . . . 3 3 3 3 4 4 4 4 4 4 . . . 
+        . . 4 3 3 3 3 2 2 2 1 1 4 4 . . 
+        . . 3 3 3 3 3 2 2 2 1 1 5 4 . . 
+        . 4 3 3 3 3 2 2 2 2 2 5 5 4 4 . 
+        . 4 3 3 3 2 2 2 4 4 4 4 5 4 4 . 
+        . 4 4 3 3 2 2 4 4 4 4 4 4 4 4 . 
+        . 4 2 3 3 2 2 4 4 4 4 4 4 4 4 . 
+        . . 4 2 3 3 2 4 4 4 4 4 2 4 . . 
+        . . 4 2 2 3 2 2 4 4 4 2 4 4 . . 
+        . . . 4 2 2 2 2 2 2 2 2 4 . . . 
+        . . . . 4 4 2 2 2 2 4 4 . . . . 
+        . . . . . . 4 4 4 4 . . . . . . 
         . . . . . . . . . . . . . . . . 
         `, spaceship, 0, -70)
     music.pewPew.play()
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
+    scene.cameraShake(4, 500)
     sprite.destroy(effects.fire, 100)
     music.playMelody("E - E - E - E - ", 500)
     info.changeLifeBy(-1)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
     otherSprite.destroy(effects.ashes, 100)
     sprite.destroy()
-    info.changeScoreBy(1)
 })
 let astroid: Sprite = null
 let projectile: Sprite = null
@@ -172,13 +173,13 @@ spaceship = sprites.create(img`
     . . c f f f c c e e f f 8 b . . 
     . c b 8 8 8 8 6 6 6 6 9 6 8 b . 
     c b 8 8 8 8 8 8 6 6 6 9 6 6 8 b 
-    c b 8 8 8 8 8 8 6 6 6 6 9 6 8 b 
+    c b 8 8 8 8 8 8 6 6 6 6 d 6 8 b 
     `, SpriteKind.Player)
 spaceship.y = scene.screenHeight() - 0
 controller.moveSprite(spaceship, 150, 0)
 spaceship.setFlag(SpriteFlag.StayInScreen, true)
-game.onUpdate(function () {
-    if (info.score() == 500) {
+game.onUpdateInterval(50, function () {
+    if (info.score() == 10) {
         game.over(true, effects.confetti)
     }
 })
