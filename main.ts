@@ -48,7 +48,7 @@ let big_boss: Sprite = null
 let boss_life = 0
 let projectile: Sprite = null
 let spaceship: Sprite = null
-info.setLife(5)
+info.setLife(3)
 info.setScore(0)
 scene.setBackgroundImage(img`
     222222222222222222222222444444444444444444fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff422542424222222222222222222222222222222222222222222
