@@ -1,55 +1,320 @@
 namespace SpriteKind {
     export const boss = SpriteKind.create()
+    export const Beam = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSprite(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . 4 4 4 4 . . . . . . 
-        . . . . 4 4 4 5 5 4 4 4 . . . . 
-        . . . 3 3 3 3 4 4 4 4 4 4 . . . 
-        . . 4 3 3 3 3 2 2 2 1 1 4 4 . . 
-        . . 3 3 3 3 3 2 2 2 1 1 5 4 . . 
-        . 4 3 3 3 3 2 2 2 2 2 5 5 4 4 . 
-        . 4 3 3 3 2 2 2 4 4 4 4 5 4 4 . 
-        . 4 4 3 3 2 2 4 4 4 4 4 4 4 4 . 
-        . 4 2 3 3 2 2 4 4 4 4 4 4 4 4 . 
-        . . 4 2 3 3 2 4 4 4 4 4 2 4 . . 
-        . . 4 2 2 3 2 2 4 4 4 2 4 4 . . 
-        . . . 4 2 2 2 2 2 2 2 2 4 . . . 
-        . . . . 4 4 2 2 2 2 4 4 . . . . 
-        . . . . . . 4 4 4 4 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, spaceship, 0, -70)
+        .......55.......
+        .......55.......
+        .......55.......
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        `, spaceship, 0, -170)
     music.pewPew.play()
 })
-info.onCountdownEnd(function () {
-    game.over(false, effects.melt)
-})
+function LaserBeam () {
+    Laser = sprites.create(img`
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ......
+        ..11..
+        .1551.
+        115151
+        151115
+        151555
+        115111
+        111115
+        115111
+        155511
+        445511
+        445511
+        455511
+        155111
+        111151
+        111551
+        115554
+        115554
+        511555
+        551551
+        555111
+        455111
+        455511
+        555111
+        555151
+        555144
+        111554
+        111555
+        111555
+        111544
+        111541
+        141111
+        155511
+        555511
+        445111
+        455511
+        455551
+        555511
+        155511
+        151155
+        111554
+        111544
+        111554
+        111554
+        111154
+        115115
+        155515
+        445511
+        545551
+        545551
+        555511
+        555511
+        155511
+        115155
+        111144
+        115544
+        115545
+        115551
+        115551
+        115511
+        111511
+        455111
+        445511
+        455511
+        455115
+        551154
+        111544
+        115551
+        115551
+        111551
+        111511
+        111111
+        155111
+        455511
+        455511
+        445115
+        555155
+        151154
+        111554
+        115544
+        115555
+        115555
+        511111
+        545111
+        445111
+        551111
+        115551
+        115515
+        115515
+        115114
+        151154
+        511155
+        511155
+        451115
+        451511
+        441151
+        551551
+        115554
+        115544
+        115544
+        115511
+        145511
+        445511
+        .1111.
+        .1....
+        `, SpriteKind.Beam)
+    Laser.z = -1
+    Laser.follow(big_boss, 700)
+}
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
     scene.cameraShake(4, 500)
     sprite.destroy(effects.fire, 100)
-    music.playMelody("E - E - - - - - ", 500)
     info.changeLifeBy(-1)
 })
+sprites.onOverlap(SpriteKind.Beam, SpriteKind.Player, function (sprite, otherSprite) {
+    game.over(false, effects.dissolve)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.boss, function (sprite, otherSprite) {
-    boss_life += -1
-    sprite.destroy(effects.halo, 500)
     if (boss_life == 0) {
+        Laser.destroy(effects.fire, 100)
         info.changeScoreBy(10)
     }
+    boss_life += -1
+    sprite.destroy(effects.halo, 500)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     info.changeScoreBy(1)
     otherSprite.destroy(effects.ashes, 100)
     sprite.destroy()
 })
-let astroid: Sprite = null
-let big_boss: Sprite = null
+let astro: Sprite = null
 let boss_life = 0
+let big_boss: Sprite = null
+let Laser: Sprite = null
 let projectile: Sprite = null
 let spaceship: Sprite = null
 info.setLife(3)
 info.setScore(0)
+let astro_list = [img`
+    . . . . . . c c c . . . . . . . 
+    . . . . . a a a c c c . . . . . 
+    . . . c a c f a a a a c . . . . 
+    . . c a c f f f a f f a c . . . 
+    . c c a c c f a a c f f a c . . 
+    . a b a a c 6 a a c c f a c c c 
+    . a b b b 6 a b b a a c a f f c 
+    . . a b b a f f b b a a c f f c 
+    c . a a a c c f c b a a c f a c 
+    c c a a a c c a a a b b a c a c 
+    a c a b b a a 6 a b b 6 b b c . 
+    b a c b b b 6 b c . c c a c . . 
+    b a c c a b b a c . . . . . . . 
+    b b a c a b a a . . . . . . . . 
+    a b 6 b b a c . . . . . . . . . 
+    . a a b c . . . . . . . . . . . 
+    `, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . c c c c . . 
+    . c c c c c . c c c c c f c c . 
+    c c a c c c c c 8 f f c f f c c 
+    c a f a a c c a f f c a a f f c 
+    c a 8 f a a c a c c c a a a a c 
+    c b c f a a a a a c c c c c c c 
+    c b b a a c f 8 a c c c 8 c c c 
+    . c b b a b c f a a a 8 8 c c . 
+    . . . . a a b b b a a 8 a c . . 
+    . . . . c b c a a c c b . . . . 
+    . . . . b b c c a b b a . . . . 
+    . . . . b b a b a 6 a . . . . . 
+    . . . . c b b b 6 6 c . . . . . 
+    . . . . . c a 6 6 b c . . . . . 
+    . . . . . . . c c c . . . . . . 
+    `, img`
+    . . . . . . . . . c c 8 . . . . 
+    . . . . . . 8 c c c f 8 c c . . 
+    . . . c c 8 8 f c a f f f c c . 
+    . . c c c f f f c a a f f c c c 
+    8 c c c f f f f c c a a c 8 c c 
+    c c c b f f f 8 a c c a a a c c 
+    c a a b b 8 a b c c c c c c c c 
+    a f c a a b b a c c c c c f f c 
+    a 8 f c a a c c a c a c f f f c 
+    c a 8 a a c c c c a a f f f 8 a 
+    . a c a a c f f a a b 8 f f c a 
+    . . c c b a f f f a b b c c 6 c 
+    . . . c b b a f f 6 6 a b 6 c . 
+    . . . c c b b b 6 6 a c c c c . 
+    . . . . c c a b b c c c . . . . 
+    . . . . . c c c c c c . . . . . 
+    `]
+let astro_speed = 0
+let astro_pos = 0
 scene.setBackgroundImage(img`
     222222222222222222222222444444444444444444fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff422542424222222222222222222222222222222222222222222
     222222222222222222222222444444444444444444fffffffffffff1fffffffffffffffffffffffffffffffffffffffffffffff444444422542424222222222222222222222222222222222222222222
@@ -198,6 +463,7 @@ game.onUpdate(function () {
         big_boss.top = 0
         big_boss.vy = 0
         big_boss.vx = 10
+        LaserBeam()
     }
     if (big_boss.right >= scene.screenWidth()) {
         big_boss.vx = -20
@@ -205,12 +471,16 @@ game.onUpdate(function () {
         big_boss.vx = 20
     }
     if (boss_life == 0) {
-        info.stopCountdown()
         big_boss.destroy(effects.rings, 500)
+    }
+    if (boss_life == 0) {
+        Laser.destroy(effects.fire, 100)
     }
 })
 game.onUpdateInterval(1000, function () {
-    astroid = sprites.create(img`
+    astro_pos = randint(0, scene.screenWidth())
+    astro_speed = randint(10, 50)
+    astro = sprites.create(img`
         . . . . . . . . . c c 8 . . . . 
         . . . . . . 8 c c c f 8 c c . . 
         . . . c c 8 8 f c a f f f c c . 
@@ -228,9 +498,10 @@ game.onUpdateInterval(1000, function () {
         . . . . c c a b b c c c . . . . 
         . . . . . c c c c c c . . . . . 
         `, SpriteKind.Enemy)
-    astroid.y = 0
-    astroid.x = randint(0, scene.screenWidth())
-    astroid.ay = 80
+    astro.x = astro_pos
+    astro.y = -10
+    astro.setImage(astro_list[randint(0, 2)])
+    astro.ay = astro_speed
 })
 game.onUpdateInterval(100, function () {
     if (info.score() >= 50) {
@@ -304,8 +575,7 @@ game.onUpdateInterval(20000, function () {
         ................................................................
         ................................................................
         `, SpriteKind.boss)
-    boss_life = 10
+    boss_life = 5
     big_boss.y = -32
     big_boss.vy = 20
-    info.startCountdown(15)
 })
