@@ -478,6 +478,7 @@ game.onUpdate(function () {
     }
 })
 game.onUpdateInterval(1000, function () {
+    let astro_type = 0
     astro_pos = randint(0, scene.screenWidth())
     astro_speed = randint(10, 50)
     astro = sprites.create(img`
@@ -500,6 +501,13 @@ game.onUpdateInterval(1000, function () {
         `, SpriteKind.Enemy)
     astro.x = astro_pos
     astro.y = -10
+    if (astro_type == 0) {
+        astro_speed = 10
+    } else if (astro_type == 1) {
+        astro_speed = 100
+    } else if (astro_type == 2) {
+        astro_speed = 200
+    }
     astro.setImage(astro_list[randint(0, 2)])
     astro.ay = astro_speed
 })
